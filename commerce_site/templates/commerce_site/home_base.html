@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>My online shop</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/shop-homepage.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">Online Shop</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <form method='GET' action='{% url "search" %}' class="form-inline">
+    <input class="form-control mr-sm-2" type="search" name='q' value="{{ request.GET.q }}" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+
+          {% if user.is_authenticated %}
+          <!-- <li class="nav-item active">
+            <a class="nav-link disabled" href="#" aria-disabled="true">Welcome {{ user.username }}
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item"> -->
+            <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Welcome {{ user.username }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'custinfo' %}">My Profile</a>
+          <a class="dropdown-item" href="{% url 'orders' %}">My Orders</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+            <!-- <a class="nav-link" href="{% url 'logoutuser' %}">Logout</a> -->
+            <form class="" action="{% url 'logoutuser' %}" method="POST">
+              {% csrf_token %}
+                <button style="
+                display: block;
+                padding: 0.5rem 1rem;
+                background: none!important;
+                border: none;
+                /*padding: 0!important;*/
+                /*optional*/
+                font-family: arial, sans-serif;
+                /*input has OS specific font-family*/
+                color: #069;
+                text-decoration: underline;
+                cursor: pointer;" type="submit" name="button">Logout</button>
+            </form>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'loginuser' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'signupuser' %}">Sign Up</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'cart' %}">({{ request.session.cart_items }})<img src="{% static 'commerce_site/shopping-cart.png' %}" style="width:20px;height:20px;" alt="Cart"></a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+{% block content %}
+
+{% endblock %}
+
+  <!-- Footer -->
+  <!-- <footer class="fixed-bottom">
+    <div class="container">
+      <p class="m-0 text-center text-black">Copyright &copy; <a href="https://www.linkedin.com/in/karim-mohamed-elsayed-65199958/" target="_blank"> Karim Mohamed</a></p>
+    </div> -->
+    <!-- /.container -->
+  <!-- </footer> -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+
+</html>

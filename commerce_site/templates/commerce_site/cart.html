@@ -1,0 +1,91 @@
+{% extends 'commerce_site/home_base.html' %}
+
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+
+  <div class="col-md-5">
+    <h1>Cart</h1>
+  </div>
+</div>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5">
+    {% if cart.products.exists %}
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in cart.products.all %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td><a href="{% url 'product' product.id %}"> {{ product.title }}</a>
+            {% include 'commerce_site/update_cart.html' with product=product cart=cart in_cart=True %}
+          </td>
+          <td>{{ product.price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td colspan="2">
+            </th>
+          <td><b>Subtotal: </b>{{ cart.subtotal }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            </th>
+          <td><b>Total: </b>{{ cart.total }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="payment_options" id="CashRadio" value="cash" onchange="getPayment(this)">
+      <label class="form-check-label" for="exampleRadios1">
+        Cash payment
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="payment_options" id="OnlineRadio" value="online" onchange="getPayment(this)">
+      <label class="form-check-label" for="exampleRadios2">
+        Online payment
+      </label>
+    </div>
+    <div id="linkdiv">
+      <a href="#" id="linkpayment"></a>
+    </div>
+    <script>
+        function getPayment(el) {
+          var aTag = document.getElementById("linkpayment");
+          // var aTag = document.createElement('a');
+          // aTag.setId('linkpayment')
+
+          console.log(el.value);
+          if (el.value === 'cash'){
+            aTag.setAttribute('href',"{% url 'checkout' %}");
+            aTag.textContent= "Checkout";
+          }
+          else{
+            aTag.setAttribute('href',"{% url 'payment' %}");
+            aTag.textContent= "Checkout";
+          }
+          // mydiv.appendChild(aTag);
+        }
+
+    </script>
+
+    <!-- <a href="{% url 'checkout' %}">Checkout</a> -->
+    <!-- {% if user.is_authenticated %}
+
+    {% else %}
+    <a href="{% url 'loginuser' %}">Login</a>
+    {% endif %} -->
+    {% else %}
+    Your cart is empty
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

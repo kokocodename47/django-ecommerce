@@ -1,0 +1,13 @@
+<form class="form" action="{% url 'cart_update' %}" method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="product_id" value="{{ product.id }}">
+  {% if in_cart %}
+  <button type="submit" name="button" class="btn btn-link btn-sm">Remove?</button>
+  {% else %}
+  {% if product in cart.products.all %}
+  In Cart<button type="submit" name="button" class="btn btn-link">Remove?</button>
+  {% else %}
+  <button class="btn btn-success" type="submit" name="button">Add to cart</button>
+  {% endif %}
+  {% endif %}
+</form>

@@ -1,0 +1,77 @@
+{% extends 'commerce_site/home_base.html' %}
+
+
+{% block content %}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-10">
+        {% if details %}
+             <h1>{{ details.count }} Current item{{ details.count|pluralize }}</h1>
+        {% else %}
+                       <h1>My Order</h1>
+        {% endif %}
+    </div>
+
+</div>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5">
+  <form>
+  <div class="form-group row">
+    <label for="orderdate" class="col-sm-2 col-form-label">Date: </label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="orderdate" value="{{ order.date }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="status" class="col-sm-2 col-form-label">Status: </label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="status" value="{{ order.status }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="delivery_date" class="col-sm-2 col-form-label">Delivery Date: </label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="delivery_date" value="{{ order.delivery_date }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="payment" class="col-sm-2 col-form-label">Payment: </label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="payment" value="{{ order.payment }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="address" class="col-sm-2 col-form-label">Address: </label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="address" value="{{ order.address }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="total" class="col-sm-2 col-form-label">Total: </label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="total" value="{{ order.total }}">
+    </div>
+  </div>
+</form>
+</div>
+  </div>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+    {% if details %}
+        <div class="list-group">
+          <ul class="list-group">
+            {% for detail in details %}
+                <!-- <a href="" class="list-group-item list-group-item-action"><b>{{ detail.product }}</b>{{ detail.price }}</a> -->
+                <li class="list-group-item"><b>{{ detail.product }}</b> : {{ detail.price }} EGP </li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <div class="text-center">
+            <h2>Looks like you don't have any details.</h2>
+        <br>
+        </div>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

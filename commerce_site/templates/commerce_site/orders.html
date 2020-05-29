@@ -1,0 +1,34 @@
+{% extends 'commerce_site/home_base.html' %}
+
+
+{% block content %}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-10">
+        {% if orders %}
+             <h1>{{ orders.count }} Current Order{{ orders.count|pluralize }}</h1>
+        {% else %}
+                       <h1>My orders history</h1>
+        {% endif %}
+    </div>
+</div>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-10">
+    {% if orders %}
+        <div class="list-group">
+            {% for order in orders %}
+                <a href="{% url 'details' order.id %}" class="list-group-item list-group-item-action{% if order.payment == cash and order.status == created %} list-group-item-danger{% endif %}">
+                  <b>{{ order.date }}</b>{% if order.address %} - {{ order.address|truncatechars:30 }}{% endif %} {% if order.payment == online %} - Online Payment {% else %} - Cash Payment {% endif %}
+                  {% if order.status == delivered %} - Delivered {% else %} - Not delivered yet {% endif %} {% if order.delivery_date %} -Dileveret at {{ order.delivery_date }}{% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center">
+            <h2>Looks like you don't have any orders.</h2>
+        <br>
+        </div>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
